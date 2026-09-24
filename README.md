@@ -118,13 +118,16 @@ Original Document Navigation
     ↓
 Questions / Information Gaps / Next Steps
 
-What Makes PLDN Different?
+## What Makes PLDN Different?
 
 PLDN is intentionally designed around personalized relevance and verifiable evidence, rather than simply adding a chat interface to a PDF.
 
-Generic document chatbot
+## Generic document chatbot
+
 PDF → AI → Answer
-PLDN
+
+## PLDN
+
 User Goal
     ↓
 Personalized Concerns
@@ -143,11 +146,11 @@ The objective is not only to provide an answer, but to help the user understand:
 
 what matters, where it came from, and what to investigate next.
 
-Architecture
+## Architecture
 
 PLDN uses a hybrid deterministic + AI architecture.
 
-Deterministic layer
+## Deterministic layer
 
 The application is responsible for:
 
@@ -160,7 +163,8 @@ Evidence ID resolution
 Page and clause mapping
 Source-text highlighting
 Input validation
-AI layer
+
+## AI layer
 
 Gemini is responsible for language-understanding tasks such as:
 
@@ -172,7 +176,7 @@ Answering follow-up questions using retrieved document sections
 
 This separation keeps authoritative document evidence under application control instead of allowing the language model to invent document locations.
 
-Evidence Architecture
+## Evidence Architecture
 
 PLDN treats document evidence as application-owned data.
 
@@ -197,7 +201,7 @@ This allows the application to control how evidence is mapped and displayed.
 
 Unknown or invalid section identifiers are discarded.
 
-Prompt Injection Protection
+## Prompt Injection Protection
 
 Uploaded documents are treated as untrusted data.
 
@@ -210,7 +214,7 @@ PLDN treats such content as document text to be analyzed, not as system instruct
 
 The application maintains separate grounding instructions and document content, while evidence references are resolved deterministically after AI analysis.
 
-Privacy-Oriented Design
+## Privacy-Oriented Design
 
 PLDN is designed to minimize unnecessary document exposure during analysis.
 
@@ -220,7 +224,7 @@ The normal analysis path sends relevant excerpts rather than automatically sendi
 
 The Gemini API key is stored server-side and is not exposed to the browser.
 
-Security
+##Security
 
 PLDN includes safeguards around both document input and AI output:
 
@@ -234,7 +238,8 @@ Deterministic evidence resolution
 Invalid evidence references are discarded
 Document content is treated as untrusted data
 Out-of-document questions are not answered from unsupported document evidence
-Input Handling
+
+## Input Handling
 
 PLDN currently focuses on PDF documents, particularly legal and agreement-style documents.
 
@@ -244,28 +249,32 @@ Large files beyond the configured upload limit are rejected.
 
 Very small or low-text PDFs can still be processed, but the application may warn that limited extracted text can result in incomplete analysis.
 
-Technology Stack
+## Technology Stack
 Frontend
 React
 TypeScript
 TanStack Start
 Tailwind CSS
 Vite
+
 Document Processing
 PDF.js
 Deterministic document segmentation
 Lexical relevance retrieval
+
 AI
 Google Gemini API
 Vercel AI SDK
 Structured AI outputs
 Zod schema validation
+
 Application Architecture
 Server-side AI execution
 Server functions
 Deterministic evidence resolution
 Client-side PDF rendering
-Project Structure
+
+## Project Structure
 src/
 ├── components/
 │   └── pldn/
@@ -295,11 +304,13 @@ src/
 │
 └── types/
     └── pldn.ts
-Getting Started
-Requirements
+
+## Getting Started
+Requirements:
 Node.js
 npm
 A Google Gemini API key
+
 Installation
 
 Clone the repository:
@@ -325,7 +336,7 @@ http://localhost:8080
 
 Never commit .env.local or expose your Gemini API key publicly.
 
-Development Commands
+## Development Commands
 
 Run the linter:
 
@@ -338,7 +349,8 @@ npx tsc --noEmit
 Build the application:
 
 npm run build
-Testing
+
+## Testing
 
 PLDN was tested against functional, security, retrieval, accessibility, and edge-case scenarios.
 
@@ -362,7 +374,7 @@ Low-text documents
 
 Long-document testing included clauses deliberately placed at different pages to verify retrieval accuracy and evidence navigation.
 
-Example Use Case
+## Example Use Case
 
 A user is reviewing an employment agreement and is considering leaving their job.
 
@@ -386,7 +398,8 @@ Verify
 Navigate
    ↓
 Clarify
-Limitations
+
+## Limitations
 
 PLDN is an information and document-navigation prototype.
 
@@ -400,7 +413,7 @@ Guarantee that a document contains every legally relevant issue
 
 If a legal decision has significant consequences, users should consult a qualified legal professional.
 
-Design Philosophy
+## Design Philosophy
 
 PLDN follows one central principle:
 
@@ -414,13 +427,14 @@ Verifiable evidence
 Original-document navigation
 Explicit information gaps
 Useful questions and next steps
-Project Status
+
+## Project Status
 
 PLDN is a functional prototype built for PromptWars: Virtual.
 
 The project demonstrates how generative AI can improve access to understanding legal documents while maintaining a separation between AI language understanding and deterministic document evidence.
 
-Disclaimer
+## Disclaimer
 
 PLDN provides general informational assistance for understanding documents.
 
