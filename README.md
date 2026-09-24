@@ -186,7 +186,7 @@ The AI returns section identifiers rather than authoritative page coordinates.
 
 The application resolves those identifiers against the parsed document:
 
-AI
+```AI
  │
  │ Section ID
  ▼
@@ -202,7 +202,7 @@ Document Viewer
 This allows the application to control how evidence is mapped and displayed.
 
 Unknown or invalid section identifiers are discarded.
-
+```
 ## Prompt Injection Protection
 
 Uploaded documents are treated as untrusted data.
@@ -277,7 +277,7 @@ Deterministic evidence resolution
 Client-side PDF rendering
 
 ## Project Structure
-src/
+```src/
 ├── components/
 │   └── pldn/
 │       ├── onboarding/
@@ -306,6 +306,7 @@ src/
 │
 └── types/
     └── pldn.ts
+```
 
 ## Getting Started
 Requirements:
