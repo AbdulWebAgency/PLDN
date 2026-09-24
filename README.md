@@ -117,6 +117,8 @@ Evidence Resolution
 Original Document Navigation
     ↓
 Questions / Information Gaps / Next Steps
+```
+---
 
 ## What Makes PLDN Different?
 
