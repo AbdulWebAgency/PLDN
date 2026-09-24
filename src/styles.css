@@ -1,0 +1,159 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * PLDN design system — "Editorial Legal-Tech".
+ * Cool ivory, midnight navy, clean surfaces, and a focused teal evidence accent.
+ * All colors are oklch semantic tokens. Never hardcode colors in components.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --font-sans: var(--font-ui);
+  --font-serif: var(--font-doc);
+  --font-mono: var(--font-code);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-line: var(--line);
+  --color-evidence: var(--evidence);
+  --color-evidence-soft: var(--evidence-soft);
+  --color-sev-crit: var(--sev-crit);
+  --color-sev-med: var(--sev-med);
+  --color-sev-low: var(--sev-low);
+  --color-gap: var(--gap);
+  --color-page: var(--page);
+  --color-workspace: var(--workspace);
+}
+
+:root {
+  --radius: 0.625rem;
+
+  --font-ui: "Inter", system-ui, sans-serif;
+  --font-doc: "Lora", Georgia, serif;
+  --font-code: "JetBrains Mono", ui-monospace, monospace;
+
+  --paper: oklch(0.9744 0.0042 236.5);
+  --surface: oklch(1 0 0);
+  --page: oklch(0.997 0.0015 228.8);
+  --workspace: oklch(0.9468 0.0086 247.92);
+  --ink: oklch(0.2449 0.0388 264.35);
+  --line: oklch(0.5544 0.0407 257.42 / 14%);
+
+  --evidence: oklch(0.5109 0.0861 186.39);
+  --evidence-soft: oklch(0.5109 0.0861 186.39 / 10%);
+  --sev-crit: oklch(0.5054 0.1905 27.52);
+  --sev-med: oklch(0.6658 0.1574 58.32);
+  --sev-low: oklch(0.5109 0.0861 186.39);
+  --gap: oklch(0.5544 0.0407 257.42);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: oklch(0.2823 0.0874 267.94);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.9468 0.0086 247.92);
+  --secondary-foreground: var(--ink);
+  --muted: oklch(0.962 0.006 247.92);
+  --muted-foreground: oklch(0.5544 0.0407 257.42);
+  --accent: var(--evidence);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.5054 0.1905 27.52);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.9125 0.0122 247.96);
+  --input: oklch(0.855 0.018 248);
+  --ring: var(--evidence);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-ui);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: oklch(0.5109 0.0861 186.39 / 18%);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-evidence);
+    outline-offset: 2px;
+  }
+}
+
+@utility label-mono {
+  font-family: var(--font-code);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+@keyframes pldn-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pldn-doc-focus {
+  0% {
+    box-shadow: 0 0 0 0 oklch(0.5109 0.0861 186.39 / 0);
+  }
+  40% {
+    box-shadow: 0 0 0 6px oklch(0.5109 0.0861 186.39 / 20%);
+  }
+  100% {
+    box-shadow: 0 0 0 0 oklch(0.5109 0.0861 186.39 / 0);
+  }
+}
+
+@utility animate-rise {
+  animation: pldn-rise 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@utility animate-doc-focus {
+  animation: pldn-doc-focus 1.6s cubic-bezier(0.2, 0.8, 0.2, 1) 1;
+}
