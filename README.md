@@ -1,4 +1,5 @@
 # PLDN — Personalised Legal Document Navigator
+**Live Demo:** https://pldn-eta.vercel.app/
 
 > **Access to a legal document is not the same as access to understanding it.**
 
@@ -226,7 +227,7 @@ The normal analysis path sends relevant excerpts rather than automatically sendi
 
 The Gemini API key is stored server-side and is not exposed to the browser.
 
-##Security
+## Security
 
 PLDN includes safeguards around both document input and AI output:
 
@@ -265,10 +266,11 @@ Deterministic document segmentation
 Lexical relevance retrieval
 
 AI
-Google Gemini API
-Vercel AI SDK
-Structured AI outputs
-Zod schema validation
+- Google Gemini 3.1 Flash Lite
+- Google Gemini API
+- Vercel AI SDK
+- Structured AI outputs
+- Zod schema validation
 
 Application Architecture
 Server-side AI execution
