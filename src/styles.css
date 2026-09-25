@@ -157,3 +157,12 @@
 @utility animate-doc-focus {
   animation: pldn-doc-focus 1.6s cubic-bezier(0.2, 0.8, 0.2, 1) 1;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise {
+    animation: none;
+  }
+  .animate-doc-focus {
+    animation: none;
+  }
+}

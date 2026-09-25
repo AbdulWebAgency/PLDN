@@ -21,7 +21,7 @@ export function AnalyzingStep({ done, total, current, error, onRetry }: Analyzin
       </header>
 
       <div className="rounded-xl border border-border bg-card p-5">
-        <div className="flex items-center gap-2 text-[13.5px]">
+        <div aria-live="polite" aria-atomic="true" className="flex items-center gap-2 text-[13.5px]">
           {error ? (
             <span className="text-destructive">Analysis stopped</span>
           ) : done === total && total > 0 ? (
@@ -32,14 +32,21 @@ export function AnalyzingStep({ done, total, current, error, onRetry }: Analyzin
           ) : (
             <>
               <Loader2 className="size-4 animate-spin text-muted-foreground" aria-hidden="true" />
-              <span aria-live="polite">{current ?? "Preparing…"}</span>
+              <span>{current ?? "Preparing…"}</span>
             </>
           )}
           <span className="ml-auto font-mono text-[11px] text-muted-foreground">
             {done} / {total}
           </span>
         </div>
-        <div className="mt-3 h-1 overflow-hidden rounded-full bg-secondary">
+        <div
+          role="progressbar"
+          aria-valuenow={percent}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label="Analysis progress"
+          className="mt-3 h-1 overflow-hidden rounded-full bg-secondary"
+        >
           <div className="h-full bg-evidence transition-[width]" style={{ width: `${percent}%` }} />
         </div>
         <p className="mt-3 text-[12px] text-muted-foreground">

@@ -72,6 +72,8 @@ export function Workspace() {
           <button
             type="button"
             onClick={() => setDocCollapsed((v) => !v)}
+            aria-pressed={docCollapsed}
+            aria-label={docCollapsed ? "Show document pane" : "Hide document pane"}
             className="hidden items-center gap-1.5 rounded-md border border-border px-2.5 py-1 text-[12px] hover:bg-secondary md:inline-flex"
           >
             {docCollapsed ? (

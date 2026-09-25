@@ -30,8 +30,17 @@ export function AssistantPanel({
   onAsk,
 }: AssistantPanelProps) {
   const [question, setQuestion] = useState("");
+  const [announcement, setAnnouncement] = useState("");
   const chatEndRef = useRef<HTMLDivElement | null>(null);
   const busy = chat.some((m) => m.pending);
+
+  // Announce new assistant responses to screen readers.
+  useEffect(() => {
+    const lastAssistant = [...chat].reverse().find((m) => m.role === "assistant" && !m.pending);
+    if (lastAssistant) {
+      setAnnouncement(lastAssistant.error ? "An error occurred." : "New answer received.");
+    }
+  }, [chat]);
 
   useEffect(() => {
     if (chat.length > 0) chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -50,6 +59,10 @@ export function AssistantPanel({
       aria-label="PLDN assistant"
       className="flex h-full min-h-0 flex-col bg-card"
     >
+      {/* Screen-reader-only live region for async chat answers */}
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {announcement}
+      </div>
       <div className="min-h-0 flex-1 space-y-4 overflow-y-auto p-3 sm:p-5">
         <ConcernsOverview
           situation={context.situation}

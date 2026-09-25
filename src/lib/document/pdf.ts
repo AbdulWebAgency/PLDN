@@ -2,12 +2,16 @@
  * Browser-side PDF access. The uploaded file never leaves the user's browser
  * as a whole document — only the small set of sections relevant to a question
  * is sent to the server for AI reasoning.
+ *
+ * pdfjs-dist is lazy-loaded on first use so it is excluded from the initial
+ * application bundle.  The worker URL import is a cheap string (no code),
+ * so it stays static.
  */
-import * as pdfjs from "pdfjs-dist";
 import type { PDFDocumentProxy, PDFPageProxy } from "pdfjs-dist";
 import workerSrc from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 
-let configured = false;
+// Re-export the types that callers (DocumentViewer, session) rely on.
+export type { PDFDocumentProxy, PDFPageProxy };
 
 /** pdf.js 6 uses Map.getOrInsertComputed, which older browsers lack. */
 function polyfillMap() {
@@ -26,11 +30,19 @@ function polyfillMap() {
   }
 }
 
-function configure() {
-  if (configured) return;
-  polyfillMap();
-  pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
-  configured = true;
+// Single promise so the dynamic import is only triggered once regardless of
+// how many concurrent callers arrive before it resolves.
+let pdfjsPromise: Promise<typeof import("pdfjs-dist")> | null = null;
+
+function getPdfjs(): Promise<typeof import("pdfjs-dist")> {
+  if (!pdfjsPromise) {
+    pdfjsPromise = import("pdfjs-dist").then((mod) => {
+      polyfillMap();
+      mod.GlobalWorkerOptions.workerSrc = workerSrc;
+      return mod;
+    });
+  }
+  return pdfjsPromise;
 }
 
 export class DocumentError extends Error {
@@ -73,7 +85,7 @@ export async function validatePdf(file: File): Promise<ArrayBuffer> {
 }
 
 export async function loadPdf(data: ArrayBuffer): Promise<PDFDocumentProxy> {
-  configure();
+  const pdfjs = await getPdfjs();
   try {
     return await pdfjs.getDocument({ data: data.slice(0) }).promise;
   } catch (error) {
@@ -129,5 +141,3 @@ export function itemsToText(items: ExtractedItem[]): string {
   }
   return out.replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n");
 }
-
-export type { PDFDocumentProxy, PDFPageProxy };

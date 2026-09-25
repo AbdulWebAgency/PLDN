@@ -104,6 +104,15 @@ export function UploadStep({ situation, onParsed, onBack }: UploadStepProps) {
       </header>
 
       <div
+        role="region"
+        aria-label="PDF upload area. Press Enter or Space to choose a file."
+        tabIndex={status === "idle" ? 0 : -1}
+        onKeyDown={(event) => {
+          if (status === "idle" && (event.key === "Enter" || event.key === " ")) {
+            event.preventDefault();
+            inputRef.current?.click();
+          }
+        }}
         onDragOver={(event) => {
           event.preventDefault();
           setDragging(true);
@@ -160,6 +169,7 @@ export function UploadStep({ situation, onParsed, onBack }: UploadStepProps) {
               ref={inputRef}
               type="file"
               accept="application/pdf,.pdf"
+              aria-label="Choose a PDF file"
               className="sr-only"
               onChange={(event) => {
                 const file = event.target.files?.[0];
