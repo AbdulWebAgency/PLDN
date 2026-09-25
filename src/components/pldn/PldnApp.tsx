@@ -1,9 +1,8 @@
-import { useEffect, useRef } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import { GoalStep } from "./onboarding/GoalStep";
 import { UploadStep } from "./onboarding/UploadStep";
 import { ConcernsStep } from "./onboarding/ConcernsStep";
 import { AnalyzingStep } from "./onboarding/AnalyzingStep";
-import { Workspace } from "./Workspace";
 import { SessionProvider, useSession } from "@/state/session";
 import { cn } from "@/lib/utils";
 
@@ -51,7 +50,9 @@ function OnboardingShell({
     </div>
   );
 }
-
+const Workspace = lazy(() =>
+  import("./Workspace").then((module) => ({ default: module.Workspace })),
+);
 function PldnRouter() {
   const {
     phase,
@@ -74,7 +75,21 @@ function PldnRouter() {
     }
   }, [phase]);
 
-  if (phase === "workspace") return <Workspace />;
+if (phase === "workspace") {
+  return (
+    <Suspense
+      fallback={
+        <div className="grid min-h-screen place-items-center bg-background">
+          <p className="font-mono text-[11px] tracking-wider text-muted-foreground uppercase">
+            Loading workspace…
+          </p>
+        </div>
+      }
+    >
+      <Workspace />
+    </Suspense>
+  );
+}
 
   return (
     <OnboardingShell mainRef={mainRef} isGoalStep={phase === "goal"}>
